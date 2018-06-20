@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-
+using System.Net;
 using Foundation;
+using Plugin.DownloadManager;
+using Plugin.DownloadManager.Abstractions;
 using UIKit;
 
 namespace DatabaseReplacement.iOS
@@ -16,5 +19,6 @@ namespace DatabaseReplacement.iOS
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");
         }
+        
     }
 }
