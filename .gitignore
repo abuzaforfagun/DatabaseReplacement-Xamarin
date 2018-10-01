@@ -292,3 +292,4 @@ __pycache__/
 
 
 # End of https://www.gitignore.io/api/visualstudio,xamarinstudio,visualstudiocode
+/LocalDemoServer/wwwroot
