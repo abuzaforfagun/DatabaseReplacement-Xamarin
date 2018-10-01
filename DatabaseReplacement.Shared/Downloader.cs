@@ -8,20 +8,18 @@ namespace DatabaseReplacement.Shared
     {
         private readonly string _fileUrl;
         private readonly string _destination;
-        private readonly string _fileName;
 
-        public Downloader(string fileUrl, string destination, string fileName)
+        public Downloader(string fileUrl, string destination)
         {
             _fileUrl = fileUrl;
             _destination = destination;
-            _fileName = fileName;
         }
         public void DownloadFile()
         {
             try
             {
                 WebClient wc = new WebClient();
-                wc.DownloadFile(_fileUrl, Path.Combine(_destination, _fileName));
+                wc.DownloadFile(_fileUrl, _destination);
             }
             catch (Exception ex)
             {

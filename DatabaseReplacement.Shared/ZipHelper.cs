@@ -8,46 +8,44 @@ namespace DatabaseReplacement.Shared
 {
     public class ZipHelper
     {
-        public void Unzip(string destination, string fileName, string unZipDestination)
+        public void Unzip(string fileLocation, string unZipDestination)
         {
-            var filePath = Path.Combine(destination, fileName);
-            using (ZipInputStream s = new ZipInputStream(File.OpenRead(filePath)))
+            using (ZipInputStream zipInputStream = new ZipInputStream(File.OpenRead(fileLocation)))
             {
                 ZipEntry theEntry;
-                while ((theEntry = s.GetNextEntry()) != null)
+                while ((theEntry = zipInputStream.GetNextEntry()) != null)
                 {
-
-
-                    string directoryName = unZipDestination;
                     string zipFileName = Path.GetFileName(theEntry.Name);
 
-                    // create directory
-                    if (directoryName.Length > 0)
-                    {
-                        Directory.CreateDirectory(directoryName);
-                    }
+                    createDirectory(unZipDestination);
 
                     if (zipFileName != String.Empty)
                     {
-                        using (FileStream streamWriter = File.Create(Path.Combine(directoryName, theEntry.Name)))
-                        {
-
-                            int size = 2048;
-                            byte[] data = new byte[2048];
-                            while (true)
-                            {
-                                size = s.Read(data, 0, data.Length);
-                                if (size > 0)
-                                {
-                                    streamWriter.Write(data, 0, size);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
+                        writeInFile(zipInputStream, theEntry, unZipDestination);
                     }
+                }
+            }
+        }
+
+        private void createDirectory(string directoryName)
+        {
+            if (directoryName.Length > 0)
+            {
+                Directory.CreateDirectory(directoryName);
+            }
+        }
+
+        private void writeInFile(ZipInputStream zipInputStream, ZipEntry theEntry, string directoryName)
+        {
+            using (FileStream streamWriter = File.Create(Path.Combine(directoryName, theEntry.Name)))
+            {
+                int size = 2048;
+                byte[] data = new byte[2048];
+                while (size > 0)
+                {
+                    size = zipInputStream.Read(data, 0, data.Length);
+                    streamWriter.Write(data, 0, size);
+
                 }
             }
         }
